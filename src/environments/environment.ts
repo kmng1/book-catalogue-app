@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  ApiUrl: 'http://localhost:3000',
+  ApiUrl: 'http://ctg.corporateadvisors.info:3004', // 'http://localhost:3000',
   itemPerPage: 20,
   google_plus_oauth_client_key: '707922363156-skj9lhgonrrff2dd94ahkcfbf4v00eh5.apps.googleusercontent.com'
 };
