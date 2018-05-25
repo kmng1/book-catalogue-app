@@ -35,7 +35,7 @@ var app = express();
 
 export GOOGLE_APPLICATION_CREDENTIALS=D:\Projects\book-catalogue-app\server\fsf2018r1-firebase-adminsdk-r3ido-6dc410e642.json
 set GOOGLE_APPLICATION_CREDENTIALS=D:\Projects\book-catalogue-app\server\fsf2018r1-firebase-adminsdk-r3ido-6dc410e642.json
-export GOOGLE_APPLICATION_CREDENTIALS=/home/kenneth/Projects/book-catalogue-app/server/fsf2018r1-firebase-adminsdk-r3ido-6dc410e642.json 
+export GOOGLE_APPLICATION_CREDENTIALS=/home/kenneth/Projects/book-catalogue-app/server/fsf2018r1-firebase-adminsdk-r3ido-6dc410e642.json
 */
 
 const  gstorage = googleStorage({
@@ -60,17 +60,16 @@ var storage = multer.diskStorage({
       cb(null,  Date.now() + '_' + file.originalname)
     }
   })
-  
+
 var diskUpload = multer({ storage: storage })
-app.use(session({ 
-        secret: 'thisisasecretbetweenus', 
+app.use(session({
+        secret: 'thisisasecretbetweenus',
         resave: false,
         saveUninitialized: true,
         cookie: { maxAge: 60000 }}))
 
-app.use(cors({credentials: true, 
-    origin: [undefined, 'http://localhost:4200', 'http://localhost', 
-    'http://192.168.1.88', 'http://192.168.1.88:4200']  }));
+app.use(cors({credentials: true,
+    origin: '*' }));
 
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -114,13 +113,13 @@ function isAuthenticate(req,res,next){
             }).catch(error => {
                 console.log(error);
                 return res.status(403).json({error: 'Access Denied with firebase verification error'});
-            });    
+            });
         }else{
             return res.status(403).json({error: 'Access Denied'});
         }
     }else{
         return res.status(403).json({error: 'Access Denied'});
-    } 
+    }
 }
 
 var makeQuery = function (sql, pool) {
@@ -319,11 +318,11 @@ app.post('/upload-firestore', isAuthenticate, googleMulter.single('coverThumbnai
 
 app.post('/upload', isAuthenticate, diskUpload.single('coverThumbnail'), (req, res)=>{
     console.log('upload here ...');
-    
+
     res.status(200).json(req.file);
 })
 
-// upload the incoming file from the angular5 ui 
+// upload the incoming file from the angular5 ui
 const uploadToFireBaseStorage = function(file) {
     return new Promise((resolve, reject)=>{
         if(!file){
@@ -348,7 +347,7 @@ const uploadToFireBaseStorage = function(file) {
             file.fileURL = url;
             resolve(url)
         });
-            
+
         blobStream.end(file.buffer);
     });
 }
