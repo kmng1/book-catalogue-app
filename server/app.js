@@ -23,6 +23,9 @@ admin.initializeApp({
 
 var app = express();
 
+const cache = require("express-cache-ctrl");
+app.use('/*', cache.secure());
+
 /**
  * service firebase.storage {
   match /b/{bucket}/o {
